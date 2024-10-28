@@ -5095,7 +5095,7 @@ async function resolveDNS(domain) {
     throw new Error(`An error occurred while resolving DNS - ${error}`);
   }
 }
-async function getConfigAddresses(hostName, cleanIPs, enableIPv6) {
+async function getConfigAddresses2(hostName, cleanIPs, enableIPv6) {
   const resolved = await resolveDNS(hostName);
   const defaultIPv6 = enableIPv6 ? resolved.ipv6.map((ip) => `[${ip}]`) : [];
   return [
@@ -5106,6 +5106,33 @@ async function getConfigAddresses(hostName, cleanIPs, enableIPv6) {
     ...cleanIPs ? cleanIPs.split(",") : []
   ];
 }
+
+async function getConfigAddresses(hostName, cleanIPs, enableIPv6) {
+  let cmDomainName = hostName;
+  let cuDomianName = 'www.speedtest.net';
+  let cmDomainIPv6 = hostName;
+  let cuDomianIPv6 = 'www.speedtest.net';
+
+  cmDomainName = env.CM_DOMAIN_NAME || cmDomainName;
+  cuDomianName = env.CU_DOMAIN_NAME || cuDomianName;
+  cmDomainIPv6 = env.CM_IPV6_DOMIAN_NAME || cmDomainIPv6;
+  cuDomianIPv6 = env.CU_IPV6_DOMIAN_NAME || cuDomianIPv6;
+
+  const resolved = await resolveDNS(hostName);
+  const defaultIPv6 = enableIPv6 ? resolved.ipv6.map((ip) => `[${ip}]`) : [];
+  
+  return [
+    cmDomainName,
+    cuDomianName,
+    cmDomainIPv6,
+    cuDomianIPv6,
+    ...resolved.ipv4,
+    ...defaultIPv6,
+    ...cleanIPs ? cleanIPs.split(",") : []
+  ];
+}
+
+
 async function generateJWTToken(secretKey) {
   const secret = new TextEncoder().encode(secretKey);
   return await new SignJWT({ userID }).setProtectedHeader({ alg: "HS256" }).setIssuedAt().setExpirationTime("24h").sign(secret);
