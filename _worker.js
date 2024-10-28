@@ -1,3 +1,4 @@
+var __env = '';
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -4149,6 +4150,7 @@ var worker_default = {
               return new Response("Unsupported request", { status: 405 });
             }
           case `/sub/${userID}`:
+            __env = env;
             if (client === "sfa") {
               const BestPingSFA = await getSingBoxCustomConfig(env, settings, host, client, false);
               return new Response(JSON.stringify(BestPingSFA, null, 4), {
@@ -4933,19 +4935,19 @@ function generateRemark(index, port, address, cleanIPs, protocol, configType) {
 }
 
 function addCustomAddressType(address, addressType) {
-  if (address == env.CM_DOMAIN_NAME) {
+  if (address == __env.CM_DOMAIN_NAME) {
       return "CM";
   }
 
-  if (address == env.CU_DOMAIN_NAME) {
+  if (address == __env.CU_DOMAIN_NAME) {
       return "CU";
   }
 
-  if (address == env.CM_IPV6_DOMIAN_NAME) {
+  if (address == __env.CM_IPV6_DOMIAN_NAME) {
       return "CMv6";
   }
 
-  if (address == env.CM_IPV6_DOMIAN_NAME) {
+  if (address == __env.CM_IPV6_DOMIAN_NAME) {
       return "CUv6";
   }
   return addressType;
@@ -5134,10 +5136,10 @@ async function getConfigAddresses(hostName, cleanIPs, enableIPv6) {
   let cmDomainIPv6 = 'www.visa.com.sg';
   let cuDomianIPv6 = 'www.visa.com';
 
-  cmDomainName = env.CM_DOMAIN_NAME || cmDomainName;
-  cuDomianName = env.CU_DOMAIN_NAME || cuDomianName;
-  cmDomainIPv6 = env.CM_IPV6_DOMIAN_NAME || cmDomainIPv6;
-  cuDomianIPv6 = env.CU_IPV6_DOMIAN_NAME || cuDomianIPv6;
+  cmDomainName = __env.CM_DOMAIN_NAME || cmDomainName;
+  cuDomianName = __env.CU_DOMAIN_NAME || cuDomianName;
+  cmDomainIPv6 = __env.CM_IPV6_DOMIAN_NAME || cmDomainIPv6;
+  cuDomianIPv6 = __env.CU_IPV6_DOMIAN_NAME || cuDomianIPv6;
 
   const resolved = await resolveDNS(hostName);
   const defaultIPv6 = enableIPv6 ? resolved.ipv6.map((ip) => `[${ip}]`) : [];
