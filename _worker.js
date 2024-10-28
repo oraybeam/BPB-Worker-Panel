@@ -5147,8 +5147,8 @@ async function getConfigAddresses(hostName, cleanIPs, enableIPv6) {
   return [
     cmDomainName,
     cuDomianName,
-    cmDomainIPv6,
-    cuDomianIPv6,
+    //cmDomainIPv6,
+    //cuDomianIPv6,
     ...resolved.ipv4,
     ...defaultIPv6,
     ...cleanIPs ? cleanIPs.split(",") : []
