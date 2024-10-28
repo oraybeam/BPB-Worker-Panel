@@ -4947,7 +4947,7 @@ function addCustomAddressType(address, addressType) {
       return "CMv6";
   }
 
-  if (address == __env.CM_IPV6_DOMIAN_NAME) {
+  if (address == __env.CU_IPV6_DOMIAN_NAME) {
       return "CUv6";
   }
   return addressType;
