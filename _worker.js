@@ -4928,8 +4928,29 @@ function generateRemark(index, port, address, cleanIPs, protocol, configType) {
   let addressType;
   const type = configType ? ` ${configType}` : "";
   cleanIPs.includes(address) ? addressType = "Clean IP" : addressType = isDomain(address) ? "Domain" : isIPv4(address) ? "IPv4" : isIPv6(address) ? "IPv6" : "";
+  addressType = addCustomAddressType(address, addressType)
   return `\u{1F4A6} ${index} - ${protocol}${type} - ${addressType} : ${port}`;
 }
+
+function addCustomAddressType(address, addressType) {
+  if (address == env.CM_DOMAIN_NAME) {
+      return "CM";
+  }
+
+  if (address == env.CU_DOMAIN_NAME) {
+      return "CU";
+  }
+
+  if (address == env.CM_IPV6_DOMIAN_NAME) {
+      return "CMv6";
+  }
+
+  if (address == env.CM_IPV6_DOMIAN_NAME) {
+      return "CUv6";
+  }
+  return addressType;
+}
+
 function isDomain(address) {
   const domainPattern = /^(?!\-)(?:[A-Za-z0-9\-]{1,63}\.?)+[A-Za-z]{2,}$/;
   return domainPattern.test(address);
@@ -5108,10 +5129,10 @@ async function getConfigAddresses2(hostName, cleanIPs, enableIPv6) {
 }
 
 async function getConfigAddresses(hostName, cleanIPs, enableIPv6) {
-  let cmDomainName = hostName;
-  let cuDomianName = 'www.speedtest.net';
-  let cmDomainIPv6 = hostName;
-  let cuDomianIPv6 = 'www.speedtest.net';
+  let cmDomainName = 'www.visa.com.sg';
+  let cuDomianName = 'www.visa.com';
+  let cmDomainIPv6 = 'www.visa.com.sg';
+  let cuDomianIPv6 = 'www.visa.com';
 
   cmDomainName = env.CM_DOMAIN_NAME || cmDomainName;
   cuDomianName = env.CU_DOMAIN_NAME || cuDomianName;
